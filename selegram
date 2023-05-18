@@ -1,1 +1,1 @@
-electron .
+electron --js-flags="--max-old-space-size=32 --lite-mode" .

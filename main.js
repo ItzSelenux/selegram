@@ -333,7 +333,7 @@ const tgc = loadTGC();
 		icon: path.join(__dirname, wicon),
 		webPreferences:
 		{
-			nodeIntegration: false 
+			nodeIntegration: true 
 			
 			
 		},
@@ -394,6 +394,7 @@ mainWindow.on('closed', () =>
 		mainWindow.hide();
 	}
 });
+	Menu.setApplicationMenu(null)
 	Menu.setApplicationMenu(menu);
 	
 
