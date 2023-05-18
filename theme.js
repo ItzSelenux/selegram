@@ -102,8 +102,8 @@ module.exports = () => {
 
 .Message.own {
     flex-direction: row-reverse;
-    --background-color: #00000061;
-    --hover-color: var(--color-reply-own-hover);
+    --background-color: #91a666;
+    --hover-color: #00000061;
     --color-reaction: #91a666;
     --hover-color-reaction: #00000061;
     --active-color: #00000061;

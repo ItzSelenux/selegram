@@ -1,6 +1,7 @@
 # selegram
 Simple Telegram K/A Client in Electron
 
+<img width="33%" src="res/icon.svg">
 
 -  This Client adds extra functionality to Web Apps, With desktop integration
 
