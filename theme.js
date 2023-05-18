@@ -1,8 +1,8 @@
-/* 
+/*
  *
  * The theme starts from line 37, the first CSS snipplets are for Selegram behavior,
  * if you want to put custom limit about sidebar, change icon used instead of telegram ones, and a lot of funny things, welcome
- * 
+ *
 */
 
 
@@ -10,7 +10,7 @@ module.exports = () => {
   const script = `
     const style = document.createElement('style');
     style.innerHTML = \`
-    
+
             .auth-form #logo {
     background: url(/res/icon.svg) center no-repeat;
     background-size: 100%;
@@ -26,13 +26,13 @@ module.exports = () => {
     position: relative;
     background-color: var(--color-background);
 }
-    
+
     .auth-form #logo {
     background: url(/res/icon.svg) center no-repeat;
     background-size: 100%;
 }
-    
-    
+
+
     html, body {
     width: 100%;
     height: 100%;
@@ -48,7 +48,7 @@ module.exports = () => {
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    --font-family: "Perfect DOS VGA", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --font-family: "Comfortaa", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     --font-family-monospace: "Cascadia Mono", "Roboto Mono", "Droid Sans Mono", "SF Mono", "Menlo", "Ubuntu Mono", "Consolas", monospace;
 }
 
@@ -82,7 +82,7 @@ module.exports = () => {
 
 
 .Button.primary:not(.disabled):not(:disabled) {
-    background-color: #91a666;
+    background-color: #6464648c;
 }
 .Button.primary:not(.disabled):not(:disabled):hover {
     background-color: #919666;
@@ -162,6 +162,22 @@ module.exports = () => {
     place-content: center;
     font-size: 1.5rem;
     color: #91a666;
+}
+.yKN1kQ3YXf4SHHIBcotS {
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 .4375rem;
+    border-radius: .75rem;
+    font-size: .875rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    position: absolute;
+    top: -0.3125rem;
+    right: -0.3125rem;
+    background: #91a666;
+    color: #fff;
+    pointer-events: none;
 }
 .EmbeddedMessage.inside-input {
     padding-inline-start: .5625rem;
@@ -248,6 +264,13 @@ module.exports = () => {
     pointer-events: none;
     box-sizing: content-box;
     transform-origin: left;
+}
+.Tab__badge--active {
+    background: #2a2a2a;
+}
+.ChatBadge.mention, .ChatBadge.unread:not(.muted), .ChatBadge.unopened:not(.muted) {
+    background: #91a666;
+    color: var(--color-white);
 }
 .Chat.selected:not(.forum) .ListItem-button, .Chat.selected:not(.forum):hover .ListItem-button {
     --background-color: #91a666 !important;
