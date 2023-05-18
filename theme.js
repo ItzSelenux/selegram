@@ -121,7 +121,7 @@ module.exports = () => {
     --thumbs-background: var(--color-background-own);
 }
 .text-entity-link {
-    color: #91a666 !important;
+    color: #313921 !important;
     text-decoration: none !important;
     word-break: break-word;
     cursor: var(--custom-cursor, pointer);

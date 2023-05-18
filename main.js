@@ -139,17 +139,6 @@ submenu:
 		}
 	}
 	},
-{
-	label: 'Hide Titlebar',
-	accelerator: 'Ctrl+Alt+T',
-	click: () => {
-		if (mainWindow.isTitleBarVisible()) {
-			mainWindow.setTitleBarVisibility(false);
-		} else {
-			mainWindow.setTitleBarVisibility(true);
-		}
-	}
-},
 	{ role: 'togglefullscreen' },
 	{ type: 'separator' },
 	{
