@@ -1,0 +1,27 @@
+{
+  "name": "selegram",
+  "version": "1.0.0",
+  "description": "Simple Electron Telegram A/K Client",
+  "main": "main.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ItzSelenux/selegram"
+  },
+  "keywords": [
+    "selegram",
+    "telegram",
+    "a",
+    "z",
+    "k",
+    "electron"
+  ],
+  "author": "ItzSelenux",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "electron": "^24.3.0",
+    "jsdom": "^22.0.0"
+  }
+}
