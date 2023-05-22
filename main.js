@@ -448,6 +448,21 @@ mainWindow.webContents.on('did-finish-load', () =>
 	mainWindow.setTitle( wtitle + ": Using Telegram K");
 });
 
+
+
+//change visual settings
+mainWindow.webContents.on('did-finish-load', () =>  
+{
+	if (cfgval.dcc === 0)
+	{
+	;
+	}
+	else
+	{
+	 CenterChat();	
+	}
+});
+
 //change visual settings
 mainWindow.webContents.on('did-finish-load', () =>  
 {
@@ -459,31 +474,7 @@ mainWindow.webContents.on('did-finish-load', () =>
 	{
 	 SidebarByPass();	
 	}
-	
-	if (cfgval.dcc === 0)
-	{
-	;
-	}
-	else
-	{
-	 CenterChat();	
-	}
 });
-
-//change visual settings
-mainWindow.webContents.on('did-finish-load', () =>  
-{
-	if (cfgval.dcc === 0)
-	{
-	;
-	}
-	else
-	{
-	 CenterChat();	
-	}
-});
-
-
 
 mainWindow.on('resize', saveWindowSize);
 
