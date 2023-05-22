@@ -19,17 +19,22 @@ const path = require('path');
 const fs = require('fs');
 const userDataPath = app.getPath('userData');
 const windowSizeFilePath = path.join(userDataPath, 'window-size.json');
-const tgcFilePath = path.join(userDataPath, 'tgc.json');
+const tgcFilePath = path.join(userDataPath, 'cfg.json');
 let mainWindow;
 let appTray;
 const themeScript = require('./theme.js');
+
+
+const CCScript = require('./scripts/centerchat.js');
+const SBScript = require('./scripts/sidebar.js');
 
 let wtitle = 'Selegram';
 let wicon = 'res/icon.png';
 let gh = 'res/gh.png';
 let realclose = false;
 
-
+const cfgval = loadTGC() || { tgc : 0 , swl : 0, dcc : 0, smb : 1 };
+	console.log( cfgval );
 const wmenu = 
 [
 {
@@ -43,8 +48,8 @@ submenu:
 		console.log("Switching to Telegram K...");
 		mainWindow.setTitle("Switching to Telegram K...");
 		mainWindow.loadURL('https://web.telegram.org/k'); 
-		tgc = 1;
-		saveTGC(tgc);
+		cfgval.tgc = 1;
+		saveTGC(); 
 	}
 	},
 	{
@@ -55,8 +60,8 @@ submenu:
 		console.log("Switching to Telegram A...");
 		mainWindow.setTitle("Switching to Telegram A...");
 		mainWindow.loadURL('https://web.telegram.org/a'); 
-		tgc = 0;
-		saveTGC(tgc);
+		cfgval.tgc = 0;
+		saveTGC(); 
 	}
 	},
 	{ type: 'separator' },
@@ -132,10 +137,14 @@ submenu:
 		if (mainWindow.isMenuBarVisible()) 
 		{
 			mainWindow.setMenuBarVisibility(false);
+			cfgval.smb = 0;
+			saveTGC();
 		} 
 		else 
 		{
 			mainWindow.setMenuBarVisibility(true);
+			cfgval.smb = 1;
+			saveTGC();
 		}
 	}
 	},
@@ -156,6 +165,66 @@ submenu:
 label: 'Tools',
 submenu: 
 [
+{
+	label: 'Extra Options',
+	submenu: 
+	[
+		{
+		label: 'Toggle Sidebar Width Limit',
+		click: () => {
+		if (cfgval.swl === 0) 
+		{
+			cfgval.swl = 1;
+			SidebarByPass()
+			mainWindow.webContents.reload();
+			saveTGC()
+		} 
+		else 
+		{
+			cfgval.swl = 0;
+			mainWindow.webContents.reload();
+			saveTGC()
+		}
+		}
+		},
+		{
+		label: 'Toggle Center Chat',
+		click: () => {
+		if (cfgval.dcc === 0) 
+		{
+			cfgval.dcc = 1;
+			CenterChat()
+			mainWindow.webContents.reload();
+			saveTGC()
+		} 
+		else 
+		{
+			cfgval.dcc = 0;
+			mainWindow.webContents.reload();
+			saveTGC()
+		}
+		}
+		},
+		{
+		label: 'Toggle Center Chat',
+		click: () => {
+		if (cfgval.dcc === 0) 
+		{
+			cfgval.dcc = 1;
+			CenterChat()
+			mainWindow.webContents.reload();
+			saveTGC()
+		} 
+		else 
+		{
+			cfgval.dcc = 0;
+			mainWindow.webContents.reload();
+			saveTGC()
+		}
+		}
+		},
+	]
+	},
 	{
 	label: 'Text Speeching                      ',
 	sublabel: '(not implemented yet)',
@@ -189,6 +258,7 @@ submenu:
 	},
 	{ type: 'separator' },
 	{ role: 'toggledevtools', label: 'Developer Tools'  },
+	
 ]
 
 },
@@ -275,29 +345,43 @@ module.exports = wmenu;
 const menu = Menu.buildFromTemplate(wmenu);
 
 //Load/Save Config Items
+/*
+ tgc: TeleGram Client, 0 = Telegram A, 1 = Telegram K
+ swl: Sidebar Width Limit
+ dcc: Disable Center Chat
+ smb: Show Menu Bar
+ * */
 
-//Telegram Client:
-function saveTGC(value) 
-{
-	const data = { tgc: value };
-	fs.writeFileSync(tgcFilePath, JSON.stringify(data));
-	console.log("tgc saved: " + tgc); 
+function saveTGC() {
+  const cfg = { tgc: cfgval.tgc, swl: cfgval.swl, dcc: cfgval.dcc, smb: cfgval.smb };
+  fs.writeFileSync(tgcFilePath, JSON.stringify(cfg));
+  console.log( "Configuration Saved: " ); console.log( cfgval );
 }
 
 function loadTGC() 
 {
 try 
 {
-	const data = JSON.parse(fs.readFileSync(tgcFilePath));
-	return data.tgc;
-} catch (error) 
+	const TGC = JSON.parse(fs.readFileSync(tgcFilePath));
+	return TGC;
+} 
+catch (error) 
 {
+	console.log( "Configuration File doesn't exist, using default parameters" );
 	return null;
 }
 }
 
 
+function CenterChat() {
+	  const ccscript = CCScript(); // Call the exported function to get the script
+  mainWindow.webContents.executeJavaScript(ccscript);
+}
 
+function SidebarByPass() {
+	  const sbscript = SBScript(); // Call the exported function to get the script
+  mainWindow.webContents.executeJavaScript(sbscript);
+}
 //Main Window
 ////////////////////////////////////////////////////////
 function saveWindowSize() 
@@ -320,11 +404,10 @@ catch (error)
 	return null;
 }
 }
+
 //MainWindow behavior
 function createWindow() 
 {
-const tgc = loadTGC();
-
 	const windowSize = loadWindowSize() || { width: 666, height: 696 };
 	mainWindow = new BrowserWindow
 	({
@@ -340,36 +423,68 @@ const tgc = loadTGC();
 		title: wtitle 
 	});
 
-if (tgc === 1) 
+
+if (cfgval.tgc === 1) 
 {
 	mainWindow.loadURL('https://web.telegram.org/k');
 	console.log("Client: K");
 } 
-else if (tgc === 0) 
+else if (cfgval.tgc === 0) 
 {
 	mainWindow.loadURL('https://web.telegram.org/a');
 	console.log("Client: A");
 }
- 
-
-
-
-mainWindow.webContents.on('did-finish-load', () => 
-{
-  const script = themeScript(); // Call the exported function to get the script
-  mainWindow.webContents.executeJavaScript(script);
-});
 
 	mainWindow.on('closed', () => 
 	{
 		mainWindow = null;
 	});
 
-	mainWindow.webContents.on('did-finish-load', () => 
+mainWindow.webContents.on('did-finish-load', () => 
+{
+	if (cfgval.tgc === 0)
+	mainWindow.setTitle( wtitle + ": Using Telegram A");
+	else
+	mainWindow.setTitle( wtitle + ": Using Telegram K");
+});
+
+//change visual settings
+mainWindow.webContents.on('did-finish-load', () =>  
+{
+	if (cfgval.swl === 0)
 	{
-		mainWindow.setTitle(wtitle);
-	});
+	;
+	}
+	else
+	{
+	 SidebarByPass();	
+	}
 	
+	if (cfgval.dcc === 0)
+	{
+	;
+	}
+	else
+	{
+	 CenterChat();	
+	}
+});
+
+//change visual settings
+mainWindow.webContents.on('did-finish-load', () =>  
+{
+	if (cfgval.dcc === 0)
+	{
+	;
+	}
+	else
+	{
+	 CenterChat();	
+	}
+});
+
+
+
 mainWindow.on('resize', saveWindowSize);
 
 mainWindow.on('closed', () => 
@@ -396,7 +511,11 @@ mainWindow.on('closed', () =>
 });
 	Menu.setApplicationMenu(null)
 	Menu.setApplicationMenu(menu);
-	
+
+if (cfgval.smb === 0)
+{
+mainWindow.setMenuBarVisibility(false);
+}
 
 }
 
@@ -406,12 +525,7 @@ app.whenReady().then(() =>
 {
 createWindow();
 
-  mainWindow.webContents.on('did-finish-load', () => 
-{
-	mainWindow.webContents.insertCSS(`
-	  @import url('file://${path.join(__dirname, 'styles.css')}');
-	`);
-});
+
 
 // Create a tray icon
 const trayIconPath = path.join(__dirname, wicon);

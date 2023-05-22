@@ -272,7 +272,7 @@ module.exports = () => {
     transform-origin: left;
 }
 .Tab__badge--active {
-    background: #2a2a2a;
+    background: #91a666 !important;
 }
 .ChatBadge.mention, .ChatBadge.unread:not(.muted), .ChatBadge.unopened:not(.muted) {
     background: #91a666;
@@ -304,15 +304,6 @@ module.exports = () => {
 .bubbles-inner {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    margin: 0;
-    max-width: 100%;
-    max-width: 1;
-    height: 100%;
-    padding: 0 .8125rem;
-    transform: translateY(0);
-    transition: transform var(--transition-standard-out);
-    width: 100%;
 }
 
     \`;
